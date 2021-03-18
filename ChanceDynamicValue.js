@@ -3427,12 +3427,20 @@ BlueImpMD5.prototype.md5 = function (string, key, raw) {
                 var type = this.chanceType;
                 var value = null;
 
+                if (this.chanceType == 'guid_short') {
+                    type = 'guid'
+                }
+
                 // compute value
                 if (this.chanceArgs) {
                     eval('var args =[' + this.chanceArgs + ']');
                     value = chance[type].apply(chance, args);
                 } else {
                     value = chance[type]();
+                }
+
+                if (this.chanceType == 'guid_short') {
+                    value = value.replace(/-/g, '')
                 }
 
                 // serialize value if needed
